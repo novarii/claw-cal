@@ -35,6 +35,14 @@ Bases: cilantro lime rice, brown rice, fiesta potato. Proteins: pollo asado, bir
 
 Multiple items = separate log commands.
 
+## New items / custom presets
+When the user orders something not in presets, add it:
+```bash
+claw-cal add tbell-griller "Beefy Potato Griller" --cal 470 -p 15 -f 20 -c 55 -a "griller"
+claw-cal remove tbell-griller  # delete a custom preset
+```
+Use `--lookup` flag to auto-pull nutrition from USDA if cals unknown.
+
 ## Status
 ```bash
 claw-cal status          # today
