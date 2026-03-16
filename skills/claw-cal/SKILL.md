@@ -51,6 +51,14 @@ claw-cal add tbell-griller "Beefy Potato Griller" --cal 470 -p 15 -f 20 -c 55 -a
 claw-cal remove tbell-griller
 ```
 
+## Servings & undo
+```bash
+claw-cal log chips guac -s 0.75     # 75% of a serving
+claw-cal log dlt -s 2               # 2 doritos tacos
+claw-cal undo                       # list today's entries, pick one to delete
+claw-cal undo -d 2026-03-15         # undo for a specific date
+```
+
 ## Status
 ```bash
 claw-cal status          # today
