@@ -35,13 +35,21 @@ Bases: cilantro lime rice, brown rice, fiesta potato. Proteins: pollo asado, bir
 
 Multiple items = separate log commands.
 
+## Quick-add (one-off, any food)
+For snacks, drinks, random food not in dining hall or presets. Interactive — searches USDA, user picks or retries.
+```bash
+claw-cal quick "greek yogurt"            # search USDA, pick from results
+claw-cal quick "protein bar" -s 2        # 2 servings
+claw-cal quick "coffee" -d 2026-03-15    # backdate
+```
+Inside the prompt: pick [1-5], [r]etry search, or [m]anual entry.
+
 ## New items / custom presets
-When the user orders something not in presets, add it:
+When the user orders something repeatedly, save it:
 ```bash
 claw-cal add tbell-griller "Beefy Potato Griller" --cal 470 -p 15 -f 20 -c 55 -a "griller"
-claw-cal remove tbell-griller  # delete a custom preset
+claw-cal remove tbell-griller
 ```
-Use `--lookup` flag to auto-pull nutrition from USDA if cals unknown.
 
 ## Status
 ```bash
