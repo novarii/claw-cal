@@ -79,14 +79,16 @@ def menu(location, dt, search):
 @cli.command()
 @click.argument("source")
 @click.argument("items_str", nargs=-1)
+@click.option("--date", "-d", "dt", default=None, help="Date to log for (YYYY-MM-DD), default today")
 @click.option("--base", default=None, help="Bowl base (blue cactus)")
 @click.option("--protein", default=None, help="Bowl protein (blue cactus)")
 @click.option("--toppings", "-t", default=None, help="Bowl toppings, comma-separated (blue cactus)")
 @click.option("--beans", default=None, help="Bowl beans (blue cactus)")
 @click.option("--extra-protein", default=None, help="Extra protein (blue cactus)")
 @click.option("--drink", default=None, help="Beverage (blue cactus)")
-def log(source, items_str, base, protein, toppings, beans, extra_protein, drink):
+def log(source, items_str, dt, base, protein, toppings, beans, extra_protein, drink):
     """Log food. Source: douglass, pit, blue-cactus/bc, or a preset name."""
+    d = date.fromisoformat(dt) if dt else None
     source_lower = source.lower()
 
     # check if it's a preset (e.g., "claw-cal log chipotle bowl")
@@ -95,7 +97,7 @@ def log(source, items_str, base, protein, toppings, beans, extra_protein, drink)
     if not preset and items_str:
         preset = get_preset(" ".join(items_str))
     if preset:
-        status = log_entry([preset], source_lower)
+        status = log_entry([preset], source_lower, d=d)
         click.echo(f"\n  + {preset['name']}")
         click.echo(f"    {_fmt_macros(preset['calories'], preset['protein'], preset['fat'], preset['carbs'])}")
         _print_status(status)
@@ -111,7 +113,7 @@ def log(source, items_str, base, protein, toppings, beans, extra_protein, drink)
         topping_list = [t.strip() for t in toppings.split(",")] if toppings else []
         bowl = build_bowl(base, protein, topping_list, beans=beans,
                          extra_protein=extra_protein, beverage=drink)
-        status = log_entry([bowl], "blue-cactus")
+        status = log_entry([bowl], "blue-cactus", d=d)
         click.echo(f"\n  + Blue Cactus Bowl")
         for comp in bowl["components"]:
             click.echo(f"    - {comp['name']:30s} {comp['calories']:>4} cal")
@@ -146,7 +148,7 @@ def log(source, items_str, base, protein, toppings, beans, extra_protein, drink)
         score = item.pop("match_score", 0)
         click.echo(f"    {item['name']:40s} {item['calories']:>4} cal  (match: {score}%)")
 
-    status = log_entry(matched, source_lower)
+    status = log_entry(matched, source_lower, d=d)
     _print_status(status)
 
 
