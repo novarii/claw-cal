@@ -81,12 +81,12 @@ PRESETS = {
     },
     "tbell-flatbread": {
         "name": "Taco Bell 3 Cheese Chicken Flatbread Melt",
-        "calories": 490,
-        "protein": 22,
-        "fat": 23,
-        "carbs": 48,
-        "fiber": 3,
-        "sodium": 1050,
+        "calories": 330,
+        "protein": 20,
+        "fat": 15,
+        "carbs": 28,
+        "fiber": 2,
+        "sodium": 750,
     },
     "tbell-nacho-fries-chicken": {
         "name": "Taco Bell Chicken Bacon Ranch Nacho Fries",
@@ -99,12 +99,12 @@ PRESETS = {
     },
     "tbell-cheesy-beef-burrito": {
         "name": "Taco Bell Cheesy Double Beef Burrito",
-        "calories": 470,
-        "protein": 19,
-        "fat": 20,
-        "carbs": 53,
-        "fiber": 5,
-        "sodium": 1170,
+        "calories": 560,
+        "protein": 21,
+        "fat": 25,
+        "carbs": 63,
+        "fiber": 4,
+        "sodium": 1350,
     },
 
     # === MCDONALD'S ===
