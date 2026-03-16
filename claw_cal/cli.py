@@ -230,5 +230,66 @@ def remove_preset_cmd(key):
         click.echo(f"  Preset '{key}' not found (can only remove user-added presets)")
 
 
+@cli.command("quick")
+@click.argument("food")
+@click.option("--servings", "-s", type=float, default=1.0, help="Number of servings")
+@click.option("--date", "-d", "dt", default=None, help="Date (YYYY-MM-DD)")
+def quick_add(food, servings, dt):
+    """Quick-add any food via USDA lookup. Interactive — pick from results, retry, or enter manually."""
+    from .usda import search_foods
+
+    d = date.fromisoformat(dt) if dt else None
+    query = food
+
+    while True:
+        click.echo(f"\n  Searching USDA for '{query}'...\n")
+        results = search_foods(query)
+
+        if not results:
+            click.echo("  No results.")
+        else:
+            for i, r in enumerate(results, 1):
+                serving = f" ({r['household']})" if r.get("household") else ""
+                per = "per 100g" if not r.get("serving_size_g") else f"per {r['serving_size_g']:.0f}g{serving}"
+                click.echo(f"  {i}) {r['description'][:50]:50s} {r['calories']:>4} cal  {r['protein']}g P  [{per}]")
+
+        click.echo()
+        click.echo("  Pick [1-5], [r]etry new search, or [m]anual entry")
+        choice = click.prompt("  >", type=str).strip().lower()
+
+        if choice == "r":
+            query = click.prompt("  New search", type=str)
+            continue
+        elif choice == "m":
+            name = click.prompt("  Food name", type=str, default=food)
+            cal = click.prompt("  Calories", type=int)
+            p = click.prompt("  Protein (g)", type=float, default=0.0)
+            f = click.prompt("  Fat (g)", type=float, default=0.0)
+            c = click.prompt("  Carbs (g)", type=float, default=0.0)
+            item = {"name": name, "calories": round(cal * servings), "protein": round(p * servings, 1),
+                    "fat": round(f * servings, 1), "carbs": round(c * servings, 1)}
+            status = log_entry([item], "manual", d=d)
+            click.echo(f"\n  + {item['name']}")
+            click.echo(f"    {_fmt_macros(item['calories'], item['protein'], item['fat'], item['carbs'])}")
+            _print_status(status)
+            return
+        elif choice.isdigit() and 1 <= int(choice) <= len(results):
+            picked = results[int(choice) - 1]
+            item = {
+                "name": picked["description"],
+                "calories": round(picked["calories"] * servings),
+                "protein": round(picked["protein"] * servings, 1),
+                "fat": round(picked["fat"] * servings, 1),
+                "carbs": round(picked["carbs"] * servings, 1),
+            }
+            status = log_entry([item], "usda", d=d)
+            click.echo(f"\n  + {item['name']}")
+            click.echo(f"    {_fmt_macros(item['calories'], item['protein'], item['fat'], item['carbs'])}")
+            _print_status(status)
+            return
+        else:
+            click.echo("  Invalid choice. Try again.")
+
+
 if __name__ == "__main__":
     cli()
