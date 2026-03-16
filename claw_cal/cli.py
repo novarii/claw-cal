@@ -59,8 +59,8 @@ def menu(location, dt, search):
         return
 
     if search:
-        from .matcher import fuzzy_match
-        items = fuzzy_match(search, items, threshold=40)
+        q = search.lower()
+        items = [i for i in items if q in i["name"].lower()]
 
     click.echo(f"\n  {location.upper()} — {d.isoformat()} ({len(items)} items)\n")
 
