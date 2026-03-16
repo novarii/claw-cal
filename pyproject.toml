@@ -1,0 +1,18 @@
+[project]
+name = "claw-cal"
+version = "0.1.0"
+description = "Calorie tracker for UofR dining + chain restaurants"
+requires-python = ">=3.12"
+dependencies = [
+    "requests>=2.31",
+    "beautifulsoup4>=4.12",
+    "thefuzz>=0.22",
+    "click>=8.1",
+]
+
+[project.scripts]
+claw-cal = "claw_cal.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
