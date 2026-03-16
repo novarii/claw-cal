@@ -1,56 +1,64 @@
 """Blue Cactus build-your-own bowls.
-USDA FoodData Central estimates per component.
+Nutrition per typical serving. Sources: USDA FoodData Central, Open Food Facts.
+Serving sizes: base ~200g, beans ~130g, protein ~113g (4oz), toppings ~30g, drinks 20oz (590ml).
 """
 
+# USDA: cilantro lime rice 215cal/100g (Branded), brown rice 124cal/100g (FNDDS), potato 126cal/100g (FNDDS)
 BASES = {
-    "cilantro lime rice": {"calories": 210, "protein": 4, "fat": 3, "carbs": 40, "fiber": 1},
-    "brown rice": {"calories": 210, "protein": 5, "fat": 2, "carbs": 44, "fiber": 3},
-    "fiesta potato": {"calories": 230, "protein": 4, "fat": 9, "carbs": 33, "fiber": 3},
+    "cilantro lime rice": {"calories": 430, "protein": 7, "fat": 15, "carbs": 66, "fiber": 1},
+    "brown rice": {"calories": 248, "protein": 5, "fat": 2, "carbs": 52, "fiber": 3},
+    "fiesta potato": {"calories": 252, "protein": 4, "fat": 9, "carbs": 41, "fiber": 3},
 }
 
+# USDA SR Legacy: black beans cooked 132cal/100g
 BEANS = {
-    "black beans": {"calories": 130, "protein": 8, "fat": 0.5, "carbs": 22, "fiber": 8},
+    "black beans": {"calories": 172, "protein": 12, "fat": 1, "carbs": 31, "fiber": 11},
     "no beans": {"calories": 0, "protein": 0, "fat": 0, "carbs": 0, "fiber": 0},
 }
 
+# USDA FNDDS: chicken thigh grilled 233cal/100g, beef braised 191cal/100g
 PROTEINS = {
-    "pollo asado": {"calories": 210, "protein": 32, "fat": 8, "carbs": 1, "fiber": 0},
-    "birria beef": {"calories": 250, "protein": 28, "fat": 14, "carbs": 3, "fiber": 0},
-    "vegan sofrito": {"calories": 150, "protein": 8, "fat": 7, "carbs": 14, "fiber": 3},
+    "pollo asado": {"calories": 263, "protein": 21, "fat": 16, "carbs": 8, "fiber": 0},
+    "birria beef": {"calories": 216, "protein": 33, "fat": 6, "carbs": 6, "fiber": 0},
+    "vegan sofrito": {"calories": 101, "protein": 2, "fat": 0, "carbs": 23, "fiber": 0},
     "no protein": {"calories": 0, "protein": 0, "fat": 0, "carbs": 0, "fiber": 0},
 }
 
 EXTRA_PROTEINS = {
-    "extra pollo asado": {"calories": 210, "protein": 32, "fat": 8, "carbs": 1, "fiber": 0},
-    "extra birria beef": {"calories": 250, "protein": 28, "fat": 14, "carbs": 3, "fiber": 0},
-    "extra vegan sofrito": {"calories": 150, "protein": 8, "fat": 7, "carbs": 14, "fiber": 3},
+    "extra pollo asado": {"calories": 263, "protein": 21, "fat": 16, "carbs": 8, "fiber": 0},
+    "extra birria beef": {"calories": 216, "protein": 33, "fat": 6, "carbs": 6, "fiber": 0},
+    "extra vegan sofrito": {"calories": 101, "protein": 2, "fat": 0, "carbs": 23, "fiber": 0},
 }
 
+# USDA SR Legacy: queso 143cal/100g. OFF: sour cream 200cal/100g, lettuce 15cal/100g,
+# salsa verde 32cal/100g, pico 32cal/100g, cheese blend 393cal/100g, pickled onion 52cal/100g,
+# ranch 467cal/100g. Topping servings ~30g except cheese ~28g, sour cream/crema ~30g, sauces ~30g.
 TOPPINGS = {
-    "queso": {"calories": 120, "protein": 5, "fat": 9, "carbs": 4, "fiber": 0},
-    "fajita peppers and onions": {"calories": 25, "protein": 1, "fat": 0, "carbs": 5, "fiber": 1},
+    "queso": {"calories": 43, "protein": 1, "fat": 3, "carbs": 3, "fiber": 0},
+    "fajita peppers and onions": {"calories": 20, "protein": 1, "fat": 0, "carbs": 4, "fiber": 1},
     "shredded lettuce": {"calories": 5, "protein": 0, "fat": 0, "carbs": 1, "fiber": 0},
     "fiesta cheese blend": {"calories": 110, "protein": 7, "fat": 9, "carbs": 1, "fiber": 0},
-    "cotija": {"calories": 100, "protein": 7, "fat": 8, "carbs": 1, "fiber": 0},
-    "pickled red onion": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
+    "cotija": {"calories": 105, "protein": 7, "fat": 8, "carbs": 1, "fiber": 0},
+    "pickled red onion": {"calories": 16, "protein": 0, "fat": 0, "carbs": 3, "fiber": 0},
     "cilantro": {"calories": 0, "protein": 0, "fat": 0, "carbs": 0, "fiber": 0},
-    "salsa verde": {"calories": 15, "protein": 0, "fat": 0, "carbs": 3, "fiber": 0},
-    "salsa roja": {"calories": 15, "protein": 0, "fat": 0, "carbs": 3, "fiber": 0},
-    "pico": {"calories": 15, "protein": 0, "fat": 0, "carbs": 3, "fiber": 1},
-    "pineapple salsa": {"calories": 20, "protein": 0, "fat": 0, "carbs": 5, "fiber": 0},
-    "sour cream": {"calories": 60, "protein": 1, "fat": 5, "carbs": 2, "fiber": 0},
-    "avocado crema": {"calories": 70, "protein": 1, "fat": 6, "carbs": 3, "fiber": 1},
-    "chipotle ranch": {"calories": 110, "protein": 1, "fat": 11, "carbs": 2, "fiber": 0},
+    "salsa verde": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
+    "salsa roja": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
+    "pico": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
+    "pineapple salsa": {"calories": 15, "protein": 0, "fat": 0, "carbs": 4, "fiber": 0},
+    "sour cream": {"calories": 60, "protein": 1, "fat": 5, "carbs": 1, "fiber": 0},
+    "avocado crema": {"calories": 50, "protein": 0, "fat": 5, "carbs": 2, "fiber": 1},
+    "chipotle ranch": {"calories": 140, "protein": 0, "fat": 14, "carbs": 1, "fiber": 0},
 }
 
+# OFF: jamaica/hibiscus 19cal/100g, lemonade 46cal/100g. Scaled to 20oz (590ml).
 BEVERAGES = {
-    "horchata": {"calories": 160, "protein": 1, "fat": 3, "carbs": 33, "fiber": 0},
-    "jamaica": {"calories": 90, "protein": 0, "fat": 0, "carbs": 23, "fiber": 0},
-    "mango agua fresca": {"calories": 120, "protein": 0, "fat": 0, "carbs": 30, "fiber": 0},
-    "guava agua fresca": {"calories": 120, "protein": 0, "fat": 0, "carbs": 30, "fiber": 0},
-    "mango lemonade": {"calories": 130, "protein": 0, "fat": 0, "carbs": 33, "fiber": 0},
-    "strawberry watermelon": {"calories": 110, "protein": 0, "fat": 0, "carbs": 28, "fiber": 0},
-    "homestyle lemonade": {"calories": 120, "protein": 0, "fat": 0, "carbs": 31, "fiber": 0},
+    "horchata": {"calories": 180, "protein": 2, "fat": 3, "carbs": 38, "fiber": 0},
+    "jamaica": {"calories": 112, "protein": 0, "fat": 0, "carbs": 18, "fiber": 0},
+    "mango agua fresca": {"calories": 140, "protein": 0, "fat": 0, "carbs": 35, "fiber": 0},
+    "guava agua fresca": {"calories": 140, "protein": 0, "fat": 0, "carbs": 35, "fiber": 0},
+    "mango lemonade": {"calories": 150, "protein": 0, "fat": 0, "carbs": 38, "fiber": 0},
+    "strawberry watermelon": {"calories": 130, "protein": 0, "fat": 0, "carbs": 33, "fiber": 0},
+    "homestyle lemonade": {"calories": 271, "protein": 0, "fat": 0, "carbs": 71, "fiber": 0},
 }
 
 ALL_COMPONENTS = {}
