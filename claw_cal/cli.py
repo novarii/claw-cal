@@ -254,7 +254,7 @@ def quick_add(food, servings, dt):
                 click.echo(f"  {i}) {r['description'][:50]:50s} {r['calories']:>4} cal  {r['protein']}g P  [{per}]")
 
         click.echo()
-        click.echo("  Pick [1-5], [r]etry new search, or [m]anual entry")
+        click.echo("  Pick [1-5], [r]etry new search, or [m]anual entry (last resort)")
         choice = click.prompt("  >", type=str).strip().lower()
 
         if choice == "r":

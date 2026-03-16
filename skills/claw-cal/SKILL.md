@@ -42,7 +42,7 @@ claw-cal quick "greek yogurt"            # search USDA, pick from results
 claw-cal quick "protein bar" -s 2        # 2 servings
 claw-cal quick "coffee" -d 2026-03-15    # backdate
 ```
-Inside the prompt: pick [1-5], [r]etry search, or [m]anual entry.
+Inside the prompt: pick [1-5], [r]etry search, or [m]anual entry. Always try USDA first — retry with different search terms before falling back to manual. Manual entry is last resort when USDA data is nonsense.
 
 ## New items / custom presets
 When the user orders something repeatedly, save it:
