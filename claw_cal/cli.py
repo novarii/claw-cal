@@ -4,7 +4,7 @@ from datetime import date
 from .config import load_config, save_config, LOCATIONS
 from .scraper import scrape_menu
 from .matcher import match_items
-from .presets import get_preset, list_presets, ALIASES
+from .presets import get_preset, list_presets, list_aliases, add_preset, remove_preset
 from .blue_cactus import build_bowl, list_menu as bc_menu
 from .tracker import log_entry, get_status, get_history
 
@@ -180,9 +180,52 @@ def show_presets():
         click.echo(f"  {key:30s} {p['calories']:>5} cal  {p.get('protein', 0):>3}g P")
 
     click.echo(f"\n  Aliases:")
-    for alias, key in sorted(ALIASES.items()):
+    for alias, key in sorted(list_aliases().items()):
         click.echo(f"    {alias:25s} → {key}")
     click.echo()
+
+
+@cli.command("add")
+@click.argument("key")
+@click.argument("name")
+@click.option("--cal", type=int, required=True, help="Calories")
+@click.option("--protein", "-p", type=float, default=0, help="Protein (g)")
+@click.option("--fat", "-f", type=float, default=0, help="Fat (g)")
+@click.option("--carbs", "-c", type=float, default=0, help="Carbs (g)")
+@click.option("--alias", "-a", multiple=True, help="Short alias(es) for this preset")
+@click.option("--lookup", "-l", is_flag=True, help="Auto-lookup nutrition from USDA")
+def add_preset_cmd(key, name, cal, protein, fat, carbs, alias, lookup):
+    """Add a custom preset. Example: claw-cal add tbell-griller "Beefy Potato Griller" --cal 470 -p 15 -f 20 -c 55"""
+    if lookup:
+        click.echo(f"  Looking up '{name}' on USDA...")
+        from .usda import lookup_food
+        result = lookup_food(name)
+        if result:
+            cal = cal or result["calories"]
+            protein = protein or result["protein"]
+            fat = fat or result["fat"]
+            carbs = carbs or result["carbs"]
+            click.echo(f"  Found: {result['description']} — {cal} cal")
+        else:
+            click.echo(f"  No USDA match. Using provided values.")
+
+    preset = add_preset(key, name, cal, protein, fat, carbs, list(alias) if alias else None)
+    click.echo(f"\n  + Added preset: {key}")
+    click.echo(f"    {name}")
+    click.echo(f"    {_fmt_macros(preset['calories'], preset['protein'], preset['fat'], preset['carbs'])}")
+    if alias:
+        click.echo(f"    Aliases: {', '.join(alias)}")
+    click.echo()
+
+
+@cli.command("remove")
+@click.argument("key")
+def remove_preset_cmd(key):
+    """Remove a custom preset."""
+    if remove_preset(key):
+        click.echo(f"  Removed preset: {key}")
+    else:
+        click.echo(f"  Preset '{key}' not found (can only remove user-added presets)")
 
 
 if __name__ == "__main__":

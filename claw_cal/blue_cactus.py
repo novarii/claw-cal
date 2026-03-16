@@ -30,35 +30,38 @@ EXTRA_PROTEINS = {
     "extra vegan sofrito": {"calories": 101, "protein": 2, "fat": 0, "carbs": 23, "fiber": 0},
 }
 
-# USDA SR Legacy: queso 143cal/100g. OFF: sour cream 200cal/100g, lettuce 15cal/100g,
-# salsa verde 32cal/100g, pico 32cal/100g, cheese blend 393cal/100g, pickled onion 52cal/100g,
-# ranch 467cal/100g. Topping servings ~30g except cheese ~28g, sour cream/crema ~30g, sauces ~30g.
+# USDA verified per 100g, scaled to serving. Topping ~30g, cheese ~28g, sauce ~30g.
+# sour cream 200cal/100g, lettuce ~0cal/100g (Foundation), salsa verde 31cal/100g,
+# salsa roja 34cal/100g (FNDDS), pico 24cal/100g, cheese blend 362cal/100g (FNDDS),
+# cotija ~350cal/100g (Foundation), ranch 430cal/100g (FNDDS), queso 143cal/100g (SR Legacy)
 TOPPINGS = {
     "queso": {"calories": 43, "protein": 1, "fat": 3, "carbs": 3, "fiber": 0},
     "fajita peppers and onions": {"calories": 20, "protein": 1, "fat": 0, "carbs": 4, "fiber": 1},
-    "shredded lettuce": {"calories": 5, "protein": 0, "fat": 0, "carbs": 1, "fiber": 0},
-    "fiesta cheese blend": {"calories": 110, "protein": 7, "fat": 9, "carbs": 1, "fiber": 0},
-    "cotija": {"calories": 105, "protein": 7, "fat": 8, "carbs": 1, "fiber": 0},
-    "pickled red onion": {"calories": 16, "protein": 0, "fat": 0, "carbs": 3, "fiber": 0},
+    "shredded lettuce": {"calories": 0, "protein": 0, "fat": 0, "carbs": 1, "fiber": 0},
+    "fiesta cheese blend": {"calories": 101, "protein": 6, "fat": 8, "carbs": 1, "fiber": 0},
+    "cotija": {"calories": 98, "protein": 7, "fat": 8, "carbs": 1, "fiber": 0},
+    "pickled red onion": {"calories": 5, "protein": 0, "fat": 0, "carbs": 1, "fiber": 0},
     "cilantro": {"calories": 0, "protein": 0, "fat": 0, "carbs": 0, "fiber": 0},
-    "salsa verde": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
-    "salsa roja": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
-    "pico": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
-    "pineapple salsa": {"calories": 15, "protein": 0, "fat": 0, "carbs": 4, "fiber": 0},
-    "sour cream": {"calories": 60, "protein": 1, "fat": 5, "carbs": 1, "fiber": 0},
-    "avocado crema": {"calories": 50, "protein": 0, "fat": 5, "carbs": 2, "fiber": 1},
-    "chipotle ranch": {"calories": 140, "protein": 0, "fat": 14, "carbs": 1, "fiber": 0},
+    "salsa verde": {"calories": 9, "protein": 0, "fat": 0, "carbs": 2, "fiber": 1},
+    "salsa roja": {"calories": 10, "protein": 0, "fat": 0, "carbs": 2, "fiber": 1},
+    "pico": {"calories": 7, "protein": 0, "fat": 0, "carbs": 2, "fiber": 0},
+    "pineapple salsa": {"calories": 11, "protein": 0, "fat": 0, "carbs": 2, "fiber": 1},
+    "sour cream": {"calories": 60, "protein": 1, "fat": 5, "carbs": 2, "fiber": 0},
+    "avocado crema": {"calories": 128, "protein": 1, "fat": 13, "carbs": 2, "fiber": 0},
+    "chipotle ranch": {"calories": 129, "protein": 0, "fat": 13, "carbs": 2, "fiber": 0},
 }
 
-# OFF: jamaica/hibiscus 19cal/100g, lemonade 46cal/100g. Scaled to 20oz (590ml).
+# USDA: horchata 58cal/100g (Branded), hibiscus tea ~0cal/100g (sweetened ~19cal/100g),
+# mango drink 10cal/100g (FNDDS), lemonade 42cal/100g (Branded), guava 33cal/100g (SR Legacy).
+# All 20oz (590ml).
 BEVERAGES = {
-    "horchata": {"calories": 180, "protein": 2, "fat": 3, "carbs": 38, "fiber": 0},
+    "horchata": {"calories": 342, "protein": 7, "fat": 7, "carbs": 64, "fiber": 0},
     "jamaica": {"calories": 112, "protein": 0, "fat": 0, "carbs": 18, "fiber": 0},
-    "mango agua fresca": {"calories": 140, "protein": 0, "fat": 0, "carbs": 35, "fiber": 0},
-    "guava agua fresca": {"calories": 140, "protein": 0, "fat": 0, "carbs": 35, "fiber": 0},
-    "mango lemonade": {"calories": 150, "protein": 0, "fat": 0, "carbs": 38, "fiber": 0},
-    "strawberry watermelon": {"calories": 130, "protein": 0, "fat": 0, "carbs": 33, "fiber": 0},
-    "homestyle lemonade": {"calories": 271, "protein": 0, "fat": 0, "carbs": 71, "fiber": 0},
+    "mango agua fresca": {"calories": 59, "protein": 0, "fat": 0, "carbs": 15, "fiber": 0},
+    "guava agua fresca": {"calories": 195, "protein": 0, "fat": 0, "carbs": 46, "fiber": 0},
+    "mango lemonade": {"calories": 130, "protein": 0, "fat": 0, "carbs": 33, "fiber": 0},
+    "strawberry watermelon": {"calories": 120, "protein": 0, "fat": 0, "carbs": 30, "fiber": 0},
+    "homestyle lemonade": {"calories": 248, "protein": 0, "fat": 0, "carbs": 69, "fiber": 0},
 }
 
 ALL_COMPONENTS = {}

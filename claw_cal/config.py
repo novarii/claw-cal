@@ -6,6 +6,10 @@ DATA_DIR = Path(os.environ.get("CLAW_CAL_DIR", os.path.expanduser("~/.claw-cal")
 LOG_DIR = DATA_DIR / "log"
 CACHE_DIR = DATA_DIR / "cache"
 CONFIG_FILE = DATA_DIR / "config.json"
+USER_PRESETS_FILE = DATA_DIR / "user_presets.json"
+
+USDA_API_KEY = os.environ.get("USDA_API_KEY", "3QOIh2rPP64oUqe6gXy7VWIVdfncQG66gf5mXTAN")
+USDA_SEARCH_URL = "https://api.nal.usda.gov/fdc/v1/foods/search"
 
 DINING_BASE_URL = "https://dining.rochester.edu/locations"
 LOCATIONS = {

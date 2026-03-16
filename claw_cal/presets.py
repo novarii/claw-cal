@@ -178,10 +178,59 @@ ALIASES = {
 }
 
 
+def _load_user_presets() -> tuple[dict, dict]:
+    """Load user-defined presets and aliases from disk."""
+    from .config import USER_PRESETS_FILE
+    if USER_PRESETS_FILE.exists():
+        import json
+        data = json.loads(USER_PRESETS_FILE.read_text())
+        return data.get("presets", {}), data.get("aliases", {})
+    return {}, {}
+
+
+def _save_user_presets(presets: dict, aliases: dict):
+    from .config import USER_PRESETS_FILE, ensure_dirs
+    import json
+    ensure_dirs()
+    USER_PRESETS_FILE.write_text(json.dumps({"presets": presets, "aliases": aliases}, indent=2))
+
+
 def get_preset(name: str) -> dict | None:
-    key = ALIASES.get(name.lower().strip(), name.lower().strip())
-    return PRESETS.get(key)
+    user_presets, user_aliases = _load_user_presets()
+    all_aliases = {**ALIASES, **user_aliases}
+    all_presets = {**PRESETS, **user_presets}
+    key = all_aliases.get(name.lower().strip(), name.lower().strip())
+    return all_presets.get(key)
 
 
 def list_presets() -> dict:
-    return PRESETS
+    user_presets, _ = _load_user_presets()
+    return {**PRESETS, **user_presets}
+
+
+def list_aliases() -> dict:
+    _, user_aliases = _load_user_presets()
+    return {**ALIASES, **user_aliases}
+
+
+def add_preset(key: str, name: str, calories: int, protein: float, fat: float,
+               carbs: float, aliases: list[str] | None = None) -> dict:
+    """Add a user-defined preset. Returns the preset dict."""
+    user_presets, user_aliases = _load_user_presets()
+    preset = {"name": name, "calories": calories, "protein": protein, "fat": fat, "carbs": carbs}
+    user_presets[key] = preset
+    if aliases:
+        for a in aliases:
+            user_aliases[a.lower().strip()] = key
+    _save_user_presets(user_presets, user_aliases)
+    return preset
+
+
+def remove_preset(key: str) -> bool:
+    user_presets, user_aliases = _load_user_presets()
+    if key in user_presets:
+        del user_presets[key]
+        user_aliases = {a: k for a, k in user_aliases.items() if k != key}
+        _save_user_presets(user_presets, user_aliases)
+        return True
+    return False
