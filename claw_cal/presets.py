@@ -24,12 +24,12 @@ PRESETS = {
     },
     "chipotle-hpt": {
         "name": "Chipotle HIGH PROTEIN TACO",
-        "calories": 480,
-        "protein": 54,
-        "fat": 19,
-        "carbs": 23,
-        "fiber": 3,
-        "sodium": 1200,
+        "calories": 190,
+        "protein": 15,
+        "fat": 7,
+        "carbs": 15,
+        "fiber": 1,
+        "sodium": 400,
     },
     "chipotle-chips-guac": {
         "name": "Chipotle Chips & Guacamole",
