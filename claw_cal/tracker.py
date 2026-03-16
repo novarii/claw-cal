@@ -77,6 +77,24 @@ def get_status(d: date | None = None) -> dict:
     }
 
 
+def get_entries(d: date | None = None) -> list[dict]:
+    """Get all entries for a day, with index."""
+    d = d or date.today()
+    day = _load_day(d)
+    return day["entries"]
+
+
+def delete_entry(index: int, d: date | None = None) -> bool:
+    """Delete an entry by index. Returns True if deleted."""
+    d = d or date.today()
+    day = _load_day(d)
+    if 0 <= index < len(day["entries"]):
+        day["entries"].pop(index)
+        _save_day(d, day)
+        return True
+    return False
+
+
 def get_history(days: int = 7) -> list[dict]:
     """Get status for last N days."""
     from datetime import timedelta

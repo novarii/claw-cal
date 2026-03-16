@@ -6,7 +6,7 @@ from .scraper import scrape_menu
 from .matcher import match_items
 from .presets import get_preset, list_presets, list_aliases, add_preset, remove_preset
 from .blue_cactus import build_bowl, list_menu as bc_menu
-from .tracker import log_entry, get_status, get_history
+from .tracker import log_entry, get_status, get_history, get_entries, delete_entry
 
 
 def _fmt_macros(cal, p, f, c):
@@ -166,6 +166,33 @@ def log(source, items_str, dt, servings, base, protein, toppings, beans, extra_p
 
     status = log_entry(matched, source_lower, d=d)
     _print_status(status)
+
+
+@cli.command("undo")
+@click.option("--date", "-d", "dt", default=None, help="Date (YYYY-MM-DD), default today")
+def undo(dt):
+    """Remove an entry from today (or a specific date)."""
+    d = date.fromisoformat(dt) if dt else date.today()
+    entries = get_entries(d)
+    if not entries:
+        click.echo(f"  No entries for {d.isoformat()}")
+        return
+
+    click.echo(f"\n  Entries for {d.isoformat()}:\n")
+    for i, e in enumerate(entries, 1):
+        items = ", ".join(it["name"] for it in e["items"])
+        click.echo(f"  {i}) [{e['time']}] {e['source']:15s} {items:40s} {e['total_calories']} cal")
+
+    click.echo()
+    choice = click.prompt("  Delete which entry? (number)", type=int)
+    if 1 <= choice <= len(entries):
+        deleted = entries[choice - 1]
+        delete_entry(choice - 1, d)
+        items = ", ".join(it["name"] for it in deleted["items"])
+        click.echo(f"  - Removed: {items} ({deleted['total_calories']} cal)")
+        _print_status(get_status(d))
+    else:
+        click.echo("  Invalid.")
 
 
 @cli.command()
